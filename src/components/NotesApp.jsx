@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import ArchivedNotePage from '../pages/ArchivedNotePage';
@@ -7,7 +8,7 @@ function NotesApp() {
   return (
     <div>
       <header
-        className='note-app__header'
+        className="note-app__header"
       >
         <h1>Catata Catat</h1>
       </header>
@@ -20,7 +21,7 @@ function NotesApp() {
         </Routes>
       </main>
     </div>
-  )
+  );
 }
 
 export default NotesApp;

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 function AddNotePage() {
   return (
-    <div className='note-app__body'>
+    <div className="note-app__body">
       AddNotePage
     </div>
-  )
+  );
 }
 
-export default AddNotePage
+export default AddNotePage;

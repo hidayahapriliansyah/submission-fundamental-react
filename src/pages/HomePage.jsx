@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import component
 // import initial data
 import { getAllNotes as getInitialData } from '../utils/local-data';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import NoteAppBody from '../components/NoteAppBody';
 import NoteAppFooter from '../components/NoteAppFooter';
 
@@ -25,9 +25,7 @@ class HomePage extends Component {
   }
 
   filterNotes(notes, title) {
-    return notes.filter((note) =>
-      note.title.toLowerCase().includes(title.toLowerCase())
-    );
+    return notes.filter((note) => note.title.toLowerCase().includes(title.toLowerCase()));
   }
 
   onInputSearch(title) {
@@ -74,12 +72,12 @@ class HomePage extends Component {
     }
 
     const decideToDelete = window.confirm(
-      `Yakin ingin menghapus catatan ${targetedNote.title}?`
+      `Yakin ingin menghapus catatan ${targetedNote.title}?`,
     );
 
     if (decideToDelete) {
       const newNotes = this.state.notes.filter(
-        (note) => targetedNote.id !== note.id
+        (note) => targetedNote.id !== note.id,
       );
       const setShowedNotes = this.filterNotes(newNotes, this.state.searchInput);
 
