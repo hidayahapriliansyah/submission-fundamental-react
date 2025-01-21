@@ -1,10 +1,9 @@
 import React from 'react';
+import NotesApp from './components/NotesApp';
 
 function App() {
   return (
-    <div className="app-container">
-      <h1>Hello, React</h1>
-    </div>
+    <NotesApp />
   );
 }
 

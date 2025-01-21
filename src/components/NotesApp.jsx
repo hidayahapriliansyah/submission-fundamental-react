@@ -6,7 +6,7 @@ import NoteAppBody from './NoteAppBody';
 import NoteAppFooter from './NoteAppFooter';
 
 // import initial data
-import { getInitialData } from '../utils';
+import { getAllNotes as getInitialData } from '../utils/local-data';
 
 class NotesApp extends Component {
   constructor() {
