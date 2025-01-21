@@ -1,6 +1,6 @@
 import React from 'react';
-import NotesApp from './components/NotesApp';
 import { BrowserRouter } from 'react-router-dom';
+import NotesApp from './components/NotesApp';
 
 function App() {
   return (

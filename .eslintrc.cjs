@@ -31,5 +31,6 @@ module.exports = {
     'no-alert': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/no-array-index-key': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };
