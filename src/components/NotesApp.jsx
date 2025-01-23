@@ -17,6 +17,7 @@ import ArchivedNotePage from '../pages/ArchivedNotePage';
 import Navbar from './Navbar';
 import AddNotePage from '../pages/AddNotePage';
 import DetailNotePage from '../pages/DetailNotePage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 class NotesApp extends Component {
   constructor() {
@@ -161,6 +162,12 @@ class NotesApp extends Component {
                   onChangeArchiveStatus={this.onChangeArchiveStatus}
                   onDeleteNote={this.onDeleteNote}
                 />
+              )}
+            />
+            <Route
+              path="/*"
+              element={(
+                <NotFoundPage />
               )}
             />
           </Routes>
