@@ -33,8 +33,8 @@ function DetailNotePage({
 
   if (!note) {
     return (
-      <div className="note-app__detail-header">
-        <h1>Note tidak ditemukan</h1>
+      <div>
+        <h1 style={{ textAlign: 'center' }}>404 | Note tidak ditemukan</h1>
       </div>
     );
   }
