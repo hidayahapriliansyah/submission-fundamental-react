@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ArchievedNotes from '../components/ArchievedNote';
 import SearchNoteInput from '../components/SearchNoteInput';
+import NoteList from '../components/NoteList';
+import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
 
 function ArchivedNotePage({
   archivedNote,
@@ -17,9 +18,16 @@ function ArchivedNotePage({
         keyword={keyword}
         onKeywordChangeHandler={onKeywordChangeHandler}
       />
-      <ArchievedNotes
-        notes={notes}
-      />
+      {
+        // eslint-disable-next-line react/prop-types
+        notes.length !== 0 ? (
+          <NoteList
+            notes={notes}
+          />
+        ) : (
+          <NoteListEmptyMessage />
+        )
+      }
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ActiveNotes from '../components/ActiveNotes';
 import SearchNoteInput from '../components/SearchNoteInput';
+import NoteList from '../components/NoteList';
+import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
 
 function HomePage({
   activeNote,
@@ -17,9 +18,17 @@ function HomePage({
         keyword={keyword}
         onKeywordChangeHandler={onKeywordChangeHandler}
       />
-      <ActiveNotes
-        notes={notes}
-      />
+
+      {
+        // eslint-disable-next-line react/prop-types
+        notes.length !== 0 ? (
+          <NoteList
+            notes={notes}
+          />
+        ) : (
+          <NoteListEmptyMessage />
+        )
+      }
     </div>
   );
 }
