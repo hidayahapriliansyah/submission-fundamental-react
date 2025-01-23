@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ArchievedNotes from '../components/ArchievedNote';
+import SearchNoteInput from '../components/SearchNoteInput';
 
 function ArchivedNotePage({
   archivedNote,
@@ -12,14 +13,10 @@ function ArchivedNotePage({
   return (
     <div>
       <h2>Catata Arsip</h2>
-      <div className="note-search">
-        <input
-          id="input-search"
-          placeholder="Cari berdasarkan judul"
-          onChange={(e) => onKeywordChangeHandler(e.target.value)}
-          value={keyword}
-        />
-      </div>
+      <SearchNoteInput
+        keyword={keyword}
+        onKeywordChangeHandler={onKeywordChangeHandler}
+      />
       <ArchievedNotes
         notes={notes}
       />

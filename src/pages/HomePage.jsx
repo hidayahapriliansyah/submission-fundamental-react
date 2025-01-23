@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ActiveNotes from '../components/ActiveNotes';
+import SearchNoteInput from '../components/SearchNoteInput';
 
 function HomePage({
   activeNote,
@@ -12,14 +13,10 @@ function HomePage({
   return (
     <div>
       <h2>Catata Aktif</h2>
-      <div className="note-search">
-        <input
-          id="input-search"
-          placeholder="Cari berdasarkan judul"
-          onChange={(e) => onKeywordChangeHandler(e.target.value)}
-          value={keyword}
-        />
-      </div>
+      <SearchNoteInput
+        keyword={keyword}
+        onKeywordChangeHandler={onKeywordChangeHandler}
+      />
       <ActiveNotes
         notes={notes}
       />
