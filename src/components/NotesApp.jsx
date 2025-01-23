@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-// import component
-// import initial data
 import { Route, Routes } from 'react-router-dom';
 import {
   addNote,
@@ -11,9 +9,6 @@ import {
   getAllNotes,
   unarchiveNote,
 } from '../utils/local-data';
-// import Navbar from '../components/Navbar';
-// import ArchivedNotePage from '../pages/ArchivedNotePage';
-// import NoteAppBody from './NoteAppBody';
 import HomePage from '../pages/HomePage';
 import ArchivedNotePage from '../pages/ArchivedNotePage';
 import Navbar from './Navbar';
@@ -25,23 +20,46 @@ import EditNotePage from '../pages/EditNotePage';
 class NotesApp extends Component {
   constructor() {
     super();
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const keyword = queryParams.get('keyword') || '';
+
     this.state = {
       notes: getAllNotes(),
-      keyword: '',
+      keywordSearchActiveNote: keyword,
+      keywordSearchArchivedNote: keyword,
     };
 
     this.onAddNote = this.onAddNote.bind(this);
     this.onEditNote = this.onEditNote.bind(this);
     this.onDeleteNote = this.onDeleteNote.bind(this);
     this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
-    this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+    this.onKeywordActiveNoteChangeHandler = this.onKeywordActiveNoteChangeHandler.bind(this);
+    this.onKeywordArchivedNoteChangeHandler = this.onKeywordArchivedNoteChangeHandler.bind(this);
   }
 
-  onKeywordChangeHandler(keyword) {
+  onKeywordActiveNoteChangeHandler(keyword) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('keyword', keyword);
+    window.history.pushState(null, '', `?${queryParams.toString()}`);
+
     this.setState(() => {
       return {
         ...this.state,
-        keyword,
+        keywordSearchActiveNote: keyword,
+      };
+    });
+  }
+
+  onKeywordArchivedNoteChangeHandler(keyword) {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('keyword', keyword);
+    window.history.pushState(null, '', `?${queryParams.toString()}`);
+
+    this.setState(() => {
+      return {
+        ...this.state,
+        keywordSearchArchivedNote: keyword,
       };
     });
   }
@@ -110,20 +128,14 @@ class NotesApp extends Component {
         </header>
 
         <main className="note-app__body">
-          {/* <NoteAppBody
-            notes={this.state.showedNotes}
-            onAddNote={this.onAddNote}
-            onDeleteNote={this.onDeleteNote}
-            onChangeArchiveStatus={this.onChangeArchiveStatus}
-          /> */}
           <Routes>
             <Route
               path="/"
               element={(
                 <HomePage
                   activeNote={activeNotes}
-                  keyword={this.state.keyword}
-                  onKeywordChangeHandler={this.onKeywordChangeHandler}
+                  keyword={this.state.keywordSearchActiveNote}
+                  onKeywordChangeHandler={this.onKeywordActiveNoteChangeHandler}
                 />
               )}
             />
@@ -132,8 +144,8 @@ class NotesApp extends Component {
               element={(
                 <ArchivedNotePage
                   archivedNote={archivedNotes}
-                  onKeywordChangeHandler={this.onKeywordChangeHandler}
-                  keyword={this.state.keyword}
+                  onKeywordChangeHandler={this.onKeywordArchivedNoteChangeHandler}
+                  keyword={this.state.keywordSearchArchivedNote}
                 />
               )}
             />
