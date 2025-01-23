@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 function InputNote({ onAddNote }) {
   const [char, setChar] = useState(0);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +29,7 @@ function InputNote({ onAddNote }) {
     setBody('');
     setTitle('');
     setChar(0);
+    navigate('/');
   };
 
   return (

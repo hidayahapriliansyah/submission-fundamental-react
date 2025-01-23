@@ -4,7 +4,7 @@ import InputNote from '../components/InputNote';
 
 function AddNotePage({ onAddNote }) {
   return (
-    <div className="note-app__body">
+    <div>
       <InputNote onAddNote={onAddNote} />
     </div>
   );
