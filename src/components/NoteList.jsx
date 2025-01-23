@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NoteItem from './NoteItem';
 
-// eslint-disable-next-line react/prop-types
-function NoteList({ notes, onDeleteNote, onChangeArchiveStatus }) {
+function NoteList({ notes }) {
   return (
     <div className="notes-list">
       {
@@ -19,8 +19,6 @@ function NoteList({ notes, onDeleteNote, onChangeArchiveStatus }) {
               body={body}
               createdAt={createdAt}
               archived={archived}
-              onDeleteNote={onDeleteNote}
-              onChangeArchiveStatus={onChangeArchiveStatus}
             />
           );
         })
@@ -28,5 +26,10 @@ function NoteList({ notes, onDeleteNote, onChangeArchiveStatus }) {
     </div>
   );
 }
+
+NoteList.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default NoteList;

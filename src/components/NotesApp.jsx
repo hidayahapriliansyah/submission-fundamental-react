@@ -25,29 +25,22 @@ class NotesApp extends Component {
     this.state = {
       notes: getAllNotes(),
       showedNotes: [],
-      searchInput: '',
+      keyword: '',
     };
 
     this.state.showedNotes = this.state.notes;
 
-    this.onInputSearch = this.onInputSearch.bind(this);
     this.onAddNote = this.onAddNote.bind(this);
     this.onDeleteNote = this.onDeleteNote.bind(this);
     this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
+    this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
   }
 
-  filterNotes(notes, title) {
-    return notes.filter((note) => note.title.toLowerCase().includes(title.toLowerCase()));
-  }
-
-  onInputSearch(title) {
-    const setShowedNotes = this.filterNotes(this.state.notes, title);
-
+  onKeywordChangeHandler(keyword) {
     this.setState(() => {
       return {
         ...this.state,
-        searchInput: title,
-        showedNotes: setShowedNotes,
+        keyword,
       };
     });
   }
@@ -132,8 +125,8 @@ class NotesApp extends Component {
               element={(
                 <HomePage
                   activeNote={activeNotes}
-                  onDeleteNote={this.onDeleteNote}
-                  onChangeArchiveStatus={this.onChangeArchiveStatus}
+                  keyword={this.state.keyword}
+                  onKeywordChangeHandler={this.onKeywordChangeHandler}
                 />
               )}
             />

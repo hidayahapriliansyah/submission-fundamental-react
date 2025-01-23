@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NoteList from './NoteList';
 import NoteListEmptyMessage from './NoteListEmptyMessage';
 
-// eslint-disable-next-line react/prop-types
-function ActiveNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
+function ActiveNotes({ notes }) {
   return (
     <>
       <h2>Catata Aktif</h2>
@@ -12,8 +12,6 @@ function ActiveNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
         notes.length !== 0 ? (
           <NoteList
             notes={notes}
-            onDeleteNote={onDeleteNote}
-            onChangeArchiveStatus={onChangeArchiveStatus}
           />
         ) : (
           <NoteListEmptyMessage />
@@ -22,5 +20,10 @@ function ActiveNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
     </>
   );
 }
+
+ActiveNotes.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default ActiveNotes;

@@ -67,6 +67,11 @@ textarea::placeholder {
   position: relative;
 }
 
+.note-search input {
+  display: block;
+  width: 100%;
+}
+
 .note-search_clear {
   margin-left: -25px;
   margin-right: 10px;

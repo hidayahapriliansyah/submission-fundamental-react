@@ -2,13 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActiveNotes from '../components/ActiveNotes';
 
-function HomePage({ activeNote, onDeleteNote, onChangeArchiveStatus }) {
+function HomePage({
+  activeNote,
+  onKeywordChangeHandler,
+  keyword,
+}) {
+  const notes = activeNote.filter((n) => n.title.toLowerCase().includes(keyword.toLowerCase()));
+
   return (
-    <div className="">
+    <div>
+      <h2>Catata Aktif</h2>
+      <div className="note-search">
+        <input
+          id="input-search"
+          placeholder="Cari berdasarkan judul"
+          onChange={(e) => onKeywordChangeHandler(e.target.value)}
+          value={keyword}
+        />
+      </div>
       <ActiveNotes
-        notes={activeNote}
-        onDeleteNote={onDeleteNote}
-        onChangeArchiveStatus={onChangeArchiveStatus}
+        notes={notes}
       />
     </div>
   );
@@ -17,8 +30,8 @@ function HomePage({ activeNote, onDeleteNote, onChangeArchiveStatus }) {
 HomePage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   activeNote: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDeleteNote: PropTypes.func.isRequired,
-  onChangeArchiveStatus: PropTypes.func.isRequired,
+  onKeywordChangeHandler: PropTypes.func.isRequired,
+  keyword: PropTypes.string.isRequired,
 };
 
 export default HomePage;
