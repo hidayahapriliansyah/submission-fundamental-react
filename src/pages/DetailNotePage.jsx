@@ -27,6 +27,14 @@ function DetailNotePage({
     }
   };
 
+  if (!note) {
+    return (
+      <div className="note-app__detail-header">
+        <h1>Note tidak ditemukan</h1>
+      </div>
+    );
+  }
+
   return (
     <div>
       <article className="note-app__detail">
