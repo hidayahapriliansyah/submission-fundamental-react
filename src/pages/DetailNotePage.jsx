@@ -52,6 +52,14 @@ function DetailNotePage({
             </button>
             <button
               type="button"
+              title="Edit"
+              className="note-app__detail-edit"
+              onClick={() => navigate(`/notes/${noteId}/edit`)}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
               title={`${note.archived ? 'Klik untuk aktifkan' : 'Klik untuk arsipkan'}`}
               className={`note-app__detail-archived-status ${note.archived ? 'archived' : ''}`}
               onClick={() => onClickArchivedHandler(note)}

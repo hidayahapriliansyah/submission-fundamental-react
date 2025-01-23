@@ -310,7 +310,17 @@ button.note-app__detail-delete {
   background-color: #b00020;
   font-size: 1.2rem;
   margin-top: 8px;
-  margin-right: 20px;
+  margin-right: 8px;
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+button.note-app__detail-edit {
+  background-color: #efefef;
+  font-size: 1.2rem;
+  margin-top: 8px;
+  margin-right: 8px;
   padding: 0.25rem 1rem;
   cursor: pointer;
   border-radius: 10px;

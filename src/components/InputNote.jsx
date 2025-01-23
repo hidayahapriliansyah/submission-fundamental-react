@@ -1,13 +1,16 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getNote } from '../utils/local-data';
 
-// eslint-disable-next-line react/prop-types
-function InputNote({ onAddNote }) {
-  const [char, setChar] = useState(0);
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-
+function InputNote({ onAddNote, onEditNote, isEdit }) {
+  const { noteId } = useParams();
+  const note = getNote(noteId);
   const navigate = useNavigate();
+
+  const [char, setChar] = useState(isEdit ? note.title.length : 0);
+  const [title, setTitle] = useState(isEdit ? note.title : '');
+  const [body, setBody] = useState(isEdit ? note.body : '');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,16 +28,24 @@ function InputNote({ onAddNote }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddNote({ title, body });
+    if (isEdit) {
+      onEditNote({ id: noteId, title, body });
+    } else {
+      onAddNote({ title, body });
+    }
     setBody('');
     setTitle('');
     setChar(0);
-    navigate('/');
+    if (isEdit) {
+      navigate(`/notes/${noteId}`);
+    } else {
+      navigate('/');
+    }
   };
 
   return (
     <div className="note-input">
-      <h2>Buat catata</h2>
+      <h2>{isEdit ? 'Edit catata' : 'Buat catata'}</h2>
       <form onSubmit={handleSubmit}>
         <p
           className={`note-input__title__char-limit ${
@@ -66,10 +77,22 @@ function InputNote({ onAddNote }) {
           name="body"
           onChange={handleChange}
         />
-        <button type="submit">Buat</button>
+        <button type="submit">{isEdit ? 'Simpan Perubahan' : 'Buat'}</button>
       </form>
     </div>
   );
 }
+
+InputNote.propTypes = {
+  onAddNote: PropTypes.func,
+  onEditNote: PropTypes.func,
+  isEdit: PropTypes.bool,
+};
+
+InputNote.defaultProps = {
+  onAddNote: () => {},
+  onEditNote: () => {},
+  isEdit: false,
+};
 
 export default InputNote;

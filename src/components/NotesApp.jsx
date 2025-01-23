@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
   addNote,
   archiveNote,
+  editNote,
   getAllNotes,
   unarchiveNote,
 } from '../utils/local-data';
@@ -18,6 +19,7 @@ import Navbar from './Navbar';
 import AddNotePage from '../pages/AddNotePage';
 import DetailNotePage from '../pages/DetailNotePage';
 import NotFoundPage from '../pages/NotFoundPage';
+import EditNotePage from '../pages/EditNotePage';
 
 class NotesApp extends Component {
   constructor() {
@@ -28,6 +30,7 @@ class NotesApp extends Component {
     };
 
     this.onAddNote = this.onAddNote.bind(this);
+    this.onEditNote = this.onEditNote.bind(this);
     this.onDeleteNote = this.onDeleteNote.bind(this);
     this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
     this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
@@ -53,6 +56,19 @@ class NotesApp extends Component {
     });
 
     window.alert(`Note ${title} berhasil ditambahkan!`);
+  }
+
+  onEditNote({ id, title, body }) {
+    editNote({ id, title, body });
+
+    this.setState(() => {
+      return {
+        ...this.state,
+        notes: getAllNotes(),
+      };
+    });
+
+    window.alert(`Note ${title} berhasil diedit!`);
   }
 
   onDeleteNote(id) {
@@ -149,6 +165,14 @@ class NotesApp extends Component {
                 <DetailNotePage
                   onChangeArchiveStatus={this.onChangeArchiveStatus}
                   onDeleteNote={this.onDeleteNote}
+                />
+              )}
+            />
+            <Route
+              path="/notes/:noteId/edit"
+              element={(
+                <EditNotePage
+                  onEditNote={this.onEditNote}
                 />
               )}
             />
