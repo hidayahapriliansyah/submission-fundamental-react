@@ -4,15 +4,24 @@ import ArchievedNotes from '../components/ArchievedNote';
 
 function ArchivedNotePage({
   archivedNote,
-  onDeleteNote,
-  onChangeArchiveStatus,
+  onKeywordChangeHandler,
+  keyword,
 }) {
+  const notes = archivedNote.filter((n) => n.title.toLowerCase().includes(keyword.toLowerCase()));
+
   return (
-    <div className="note-app__body">
+    <div>
+      <h2>Catata Arsip</h2>
+      <div className="note-search">
+        <input
+          id="input-search"
+          placeholder="Cari berdasarkan judul"
+          onChange={(e) => onKeywordChangeHandler(e.target.value)}
+          value={keyword}
+        />
+      </div>
       <ArchievedNotes
-        notes={archivedNote}
-        onDeleteNote={onDeleteNote}
-        onChangeArchiveStatus={onChangeArchiveStatus}
+        notes={notes}
       />
     </div>
   );
@@ -21,8 +30,8 @@ function ArchivedNotePage({
 ArchivedNotePage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   archivedNote: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDeleteNote: PropTypes.func.isRequired,
-  onChangeArchiveStatus: PropTypes.func.isRequired,
+  onKeywordChangeHandler: PropTypes.func.isRequired,
+  keyword: PropTypes.string.isRequired,
 };
 
 export default ArchivedNotePage;

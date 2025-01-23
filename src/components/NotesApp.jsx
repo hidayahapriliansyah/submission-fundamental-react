@@ -130,8 +130,8 @@ class NotesApp extends Component {
               element={(
                 <ArchivedNotePage
                   archivedNote={archivedNotes}
-                  onDeleteNote={this.onDeleteNote}
-                  onChangeArchiveStatus={this.onChangeArchiveStatus}
+                  onKeywordChangeHandler={this.onKeywordChangeHandler}
+                  keyword={this.state.keyword}
                 />
               )}
             />

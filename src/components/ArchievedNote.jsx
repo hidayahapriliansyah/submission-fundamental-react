@@ -1,11 +1,10 @@
 import React from 'react';
 
-// import component
+import PropTypes from 'prop-types';
 import NoteList from './NoteList';
 import NoteListEmptyMessage from './NoteListEmptyMessage';
 
-// eslint-disable-next-line react/prop-types
-function ArchievedNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
+function ArchievedNotes({ notes }) {
   return (
     <>
       <h2>Arsip</h2>
@@ -14,8 +13,6 @@ function ArchievedNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
         notes.length !== 0 ? (
           <NoteList
             notes={notes}
-            onDeleteNote={onDeleteNote}
-            onChangeArchiveStatus={onChangeArchiveStatus}
           />
         ) : (
           <NoteListEmptyMessage />
@@ -24,5 +21,10 @@ function ArchievedNotes({ notes, onDeleteNote, onChangeArchiveStatus }) {
     </>
   );
 }
+
+ArchievedNotes.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default ArchievedNotes;
