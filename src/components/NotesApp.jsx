@@ -3,7 +3,12 @@ import React, { Component } from 'react';
 // import component
 // import initial data
 import { Route, Routes } from 'react-router-dom';
-import { archiveNote, getAllNotes, unarchiveNote } from '../utils/local-data';
+import {
+  addNote,
+  archiveNote,
+  getAllNotes,
+  unarchiveNote,
+} from '../utils/local-data';
 // import Navbar from '../components/Navbar';
 // import ArchivedNotePage from '../pages/ArchivedNotePage';
 // import NoteAppBody from './NoteAppBody';
@@ -47,22 +52,12 @@ class NotesApp extends Component {
   }
 
   onAddNote({ title, body }) {
-    const newNote = {
-      id: +new Date(),
-      title,
-      body,
-      createdAt: new Date().toISOString(),
-      archived: false,
-    };
-
-    const newNotes = [...this.state.notes, newNote];
-    const setShowedNotes = this.filterNotes(newNotes, this.state.searchInput);
+    addNote({ title, body });
 
     this.setState(() => {
       return {
         ...this.state,
-        notes: newNotes,
-        showedNotes: setShowedNotes,
+        notes: getAllNotes(),
       };
     });
 
