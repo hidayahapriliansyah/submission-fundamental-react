@@ -19,11 +19,15 @@ function DetailNotePage({
   };
 
   const onClickDeleteHandler = (selectedNote) => {
-    onDeleteNote(selectedNote.id);
-    if (selectedNote.archived) {
-      navigate('/archives');
-    } else {
-      navigate('/');
+    const decideToDelete = window.confirm('Yakin ingin menghapus catatan?');
+
+    if (decideToDelete) {
+      onDeleteNote(selectedNote.id);
+      if (selectedNote.archived) {
+        navigate('/archives');
+      } else {
+        navigate('/');
+      }
     }
   };
 

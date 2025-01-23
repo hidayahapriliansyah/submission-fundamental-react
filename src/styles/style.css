@@ -24,6 +24,7 @@ textarea {
   border: 1px solid #aaa;
   border-radius: 4px;
   font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
 }
 
 input::placeholder,
@@ -98,7 +99,7 @@ textarea::placeholder {
 
 .note-input {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 810px;
   margin-bottom: 48px;
 }
 

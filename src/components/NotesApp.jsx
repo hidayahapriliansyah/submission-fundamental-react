@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
   addNote,
   archiveNote,
+  deleteNote,
   editNote,
   getAllNotes,
   unarchiveNote,
@@ -72,29 +73,14 @@ class NotesApp extends Component {
   }
 
   onDeleteNote(id) {
-    const targetedNote = this.state.notes.find((note) => note.id === id);
+    deleteNote(id);
 
-    if (!targetedNote) {
-      alert(`Tidak ada catatan dengan id : ${id}`);
-      return;
-    }
-
-    const decideToDelete = window.confirm(
-      `Yakin ingin menghapus catatan ${targetedNote.title}?`,
-    );
-
-    if (decideToDelete) {
-      const newNotes = this.state.notes.filter(
-        (note) => targetedNote.id !== note.id,
-      );
-
-      this.setState(() => {
-        return {
-          ...this.state,
-          notes: newNotes,
-        };
-      });
-    }
+    this.setState(() => {
+      return {
+        ...this.state,
+        notes: getAllNotes(),
+      };
+    });
   }
 
   onChangeArchiveStatus(note) {
