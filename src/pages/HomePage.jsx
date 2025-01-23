@@ -4,7 +4,7 @@ import ActiveNotes from '../components/ActiveNotes';
 
 function HomePage({ activeNote, onDeleteNote, onChangeArchiveStatus }) {
   return (
-    <div>
+    <div className="">
       <ActiveNotes
         notes={activeNote}
         onDeleteNote={onDeleteNote}
