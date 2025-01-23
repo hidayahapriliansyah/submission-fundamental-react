@@ -21,47 +21,14 @@ class NotesApp extends Component {
   constructor() {
     super();
 
-    const queryParams = new URLSearchParams(window.location.search);
-    const keyword = queryParams.get('keyword') || '';
-
     this.state = {
       notes: getAllNotes(),
-      keywordSearchActiveNote: keyword,
-      keywordSearchArchivedNote: keyword,
     };
 
     this.onAddNote = this.onAddNote.bind(this);
     this.onEditNote = this.onEditNote.bind(this);
     this.onDeleteNote = this.onDeleteNote.bind(this);
     this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
-    this.onKeywordActiveNoteChangeHandler = this.onKeywordActiveNoteChangeHandler.bind(this);
-    this.onKeywordArchivedNoteChangeHandler = this.onKeywordArchivedNoteChangeHandler.bind(this);
-  }
-
-  onKeywordActiveNoteChangeHandler(keyword) {
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set('keyword', keyword);
-    window.history.pushState(null, '', `?${queryParams.toString()}`);
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        keywordSearchActiveNote: keyword,
-      };
-    });
-  }
-
-  onKeywordArchivedNoteChangeHandler(keyword) {
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set('keyword', keyword);
-    window.history.pushState(null, '', `?${queryParams.toString()}`);
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        keywordSearchArchivedNote: keyword,
-      };
-    });
   }
 
   onAddNote({ title, body }) {
@@ -134,8 +101,6 @@ class NotesApp extends Component {
               element={(
                 <HomePage
                   activeNote={activeNotes}
-                  keyword={this.state.keywordSearchActiveNote}
-                  onKeywordChangeHandler={this.onKeywordActiveNoteChangeHandler}
                 />
               )}
             />
@@ -144,8 +109,6 @@ class NotesApp extends Component {
               element={(
                 <ArchivedNotePage
                   archivedNote={archivedNotes}
-                  onKeywordChangeHandler={this.onKeywordArchivedNoteChangeHandler}
-                  keyword={this.state.keywordSearchArchivedNote}
                 />
               )}
             />

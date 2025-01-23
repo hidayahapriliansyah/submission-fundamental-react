@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
@@ -6,16 +6,27 @@ import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
 
 function ArchivedNotePage({
   archivedNote,
-  onKeywordChangeHandler,
-  keyword,
 }) {
-  const notes = archivedNote.filter((n) => n.title.toLowerCase().includes(keyword.toLowerCase()));
+  const queryParams = new URLSearchParams(window.location.search);
+  const keywordSearchQuery = queryParams.get('search') || '';
+  const [keywordSearch, setKeywordSearch] = useState(keywordSearchQuery);
+
+  const onKeywordChangeHandler = (kSearch) => {
+    queryParams.set('search', keywordSearch);
+    window.history.pushState(null, '', `?${queryParams.toString()}`);
+
+    setKeywordSearch(kSearch);
+  };
+
+  const notes = archivedNote.filter(
+    (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+  );
 
   return (
     <div>
       <h2>Catata Arsip</h2>
       <SearchNoteInput
-        keyword={keyword}
+        keyword={keywordSearch}
         onKeywordChangeHandler={onKeywordChangeHandler}
       />
       {
@@ -35,8 +46,6 @@ function ArchivedNotePage({
 ArchivedNotePage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   archivedNote: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onKeywordChangeHandler: PropTypes.func.isRequired,
-  keyword: PropTypes.string.isRequired,
 };
 
 export default ArchivedNotePage;
