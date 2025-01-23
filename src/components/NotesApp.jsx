@@ -24,11 +24,8 @@ class NotesApp extends Component {
     super();
     this.state = {
       notes: getAllNotes(),
-      showedNotes: [],
       keyword: '',
     };
-
-    this.state.showedNotes = this.state.notes;
 
     this.onAddNote = this.onAddNote.bind(this);
     this.onDeleteNote = this.onDeleteNote.bind(this);
@@ -74,13 +71,11 @@ class NotesApp extends Component {
       const newNotes = this.state.notes.filter(
         (note) => targetedNote.id !== note.id,
       );
-      const setShowedNotes = this.filterNotes(newNotes, this.state.searchInput);
 
       this.setState(() => {
         return {
           ...this.state,
           notes: newNotes,
-          showedNotes: setShowedNotes,
         };
       });
     }
