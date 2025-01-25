@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
 import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
+import { getActiveNotes } from '../utils/api';
 
-function HomePage({ activeNote }) {
+function HomePage() {
+  const [activeNotes, setActiveNotes] = useState([]);
+
   const queryParams = new URLSearchParams(window.location.search);
   const keywordSearchQuery = queryParams.get('search') || '';
   const [keywordSearch, setKeywordSearch] = useState(keywordSearchQuery);
@@ -16,9 +18,21 @@ function HomePage({ activeNote }) {
     setKeywordSearch(kSearch);
   };
 
-  const notes = activeNote.filter(
+  const notes = activeNotes.filter(
     (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
   );
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const { data } = await getActiveNotes();
+
+      console.log('data active notes =>', data);
+
+      setActiveNotes(data);
+    };
+
+    fetchNotes();
+  }, []);
 
   return (
     <div>
@@ -32,7 +46,7 @@ function HomePage({ activeNote }) {
         // eslint-disable-next-line react/prop-types
         notes.length !== 0 ? (
           <NoteList
-            notes={notes}
+            notes={activeNotes}
           />
         ) : (
           <NoteListEmptyMessage />
@@ -41,10 +55,5 @@ function HomePage({ activeNote }) {
     </div>
   );
 }
-
-HomePage.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  activeNote: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
 
 export default HomePage;

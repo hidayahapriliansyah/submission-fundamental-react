@@ -32,5 +32,6 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'react/no-array-index-key': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'react/jsx-no-bind': 'off',
   },
 };
