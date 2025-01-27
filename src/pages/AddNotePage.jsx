@@ -1,17 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import InputNote from '../components/InputNote';
 
-function AddNotePage({ onAddNote }) {
+function AddNotePage() {
   return (
     <div>
-      <InputNote onAddNote={onAddNote} />
+      <InputNote />
     </div>
   );
 }
-
-AddNotePage.propTypes = {
-  onAddNote: PropTypes.func.isRequired,
-};
 
 export default AddNotePage;

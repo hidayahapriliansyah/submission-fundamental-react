@@ -15,7 +15,6 @@ import Navbar from './Navbar';
 import AddNotePage from '../pages/AddNotePage';
 import DetailNotePage from '../pages/DetailNotePage';
 import NotFoundPage from '../pages/NotFoundPage';
-import EditNotePage from '../pages/EditNotePage';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import { getUserLogged, putAccessToken } from '../utils/api';
@@ -172,23 +171,13 @@ class NotesApp extends Component {
             <Route
               path="/notes/new"
               element={(
-                <AddNotePage
-                  onAddNote={this.onAddNote}
-                />
+                <AddNotePage />
               )}
             />
             <Route
               path="/notes/:noteId"
               element={(
                 <DetailNotePage />
-              )}
-            />
-            <Route
-              path="/notes/:noteId/edit"
-              element={(
-                <EditNotePage
-                  onEditNote={this.onEditNote}
-                />
               )}
             />
             <Route

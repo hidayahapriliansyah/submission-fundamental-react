@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getNote } from '../utils/local-data';
+import { addNote } from '../utils/api';
 
-function InputNote({ onAddNote, onEditNote, isEdit }) {
+function InputNote({ isEdit }) {
   const { noteId } = useParams();
   const note = getNote(noteId);
   const navigate = useNavigate();
@@ -26,12 +27,15 @@ function InputNote({ onAddNote, onEditNote, isEdit }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isEdit) {
-      onEditNote({ id: noteId, title, body });
+      /**
+       * TODO: Pada API Notes yang disediakan Dicoding tidak memiliki endopoint untuk edit
+       *       block edit bisa dipakai seandainya nanti ada fitur edit
+       */
     } else {
-      onAddNote({ title, body });
+      await addNote({ title, body });
     }
     setBody('');
     setTitle('');
@@ -84,14 +88,10 @@ function InputNote({ onAddNote, onEditNote, isEdit }) {
 }
 
 InputNote.propTypes = {
-  onAddNote: PropTypes.func,
-  onEditNote: PropTypes.func,
   isEdit: PropTypes.bool,
 };
 
 InputNote.defaultProps = {
-  onAddNote: () => {},
-  onEditNote: () => {},
   isEdit: false,
 };
 
