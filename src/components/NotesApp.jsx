@@ -155,17 +155,13 @@ class NotesApp extends Component {
             <Route
               path="/"
               element={(
-                <HomePage
-                  activeNote={[]}
-                />
+                <HomePage />
               )}
             />
             <Route
               path="/archives"
               element={(
-                <ArchivedNotePage
-                  archivedNote={[]}
-                />
+                <ArchivedNotePage />
               )}
             />
             <Route

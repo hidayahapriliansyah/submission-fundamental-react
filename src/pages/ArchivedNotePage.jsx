@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
 import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
+import { getArchivedNotes } from '../utils/api';
 
-function ArchivedNotePage({
-  archivedNote,
-}) {
+function ArchivedNotePage() {
+  const [archivedNotes, setArchivedNotes] = useState([]);
+
   const queryParams = new URLSearchParams(window.location.search);
   const keywordSearchQuery = queryParams.get('search') || '';
   const [keywordSearch, setKeywordSearch] = useState(keywordSearchQuery);
@@ -18,9 +18,19 @@ function ArchivedNotePage({
     setKeywordSearch(kSearch);
   };
 
-  const notes = archivedNote.filter(
+  const notes = archivedNotes.filter(
     (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
   );
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const { data } = await getArchivedNotes();
+
+      setArchivedNotes(data);
+    };
+
+    fetchNotes();
+  }, []);
 
   return (
     <div>
@@ -42,10 +52,5 @@ function ArchivedNotePage({
     </div>
   );
 }
-
-ArchivedNotePage.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  archivedNote: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
 
 export default ArchivedNotePage;
