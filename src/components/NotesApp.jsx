@@ -180,10 +180,7 @@ class NotesApp extends Component {
             <Route
               path="/notes/:noteId"
               element={(
-                <DetailNotePage
-                  onChangeArchiveStatus={this.onChangeArchiveStatus}
-                  onDeleteNote={this.onDeleteNote}
-                />
+                <DetailNotePage />
               )}
             />
             <Route

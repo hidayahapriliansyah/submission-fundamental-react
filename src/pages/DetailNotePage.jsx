@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { getNote } from '../utils/api';
+import {
+  archiveNote, deleteNote, getNote, unarchiveNote,
+} from '../utils/api';
 import showFormattedDate from '../utils';
 
-function DetailNotePage({
-  onChangeArchiveStatus,
-  onDeleteNote,
-}) {
+function DetailNotePage() {
   const [note, setNote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const { noteId } = useParams();
   const navigate = useNavigate();
 
-  const onClickArchivedHandler = (selectedNote) => {
-    onChangeArchiveStatus(selectedNote);
-    navigate(`/notes/${selectedNote.id}`);
+  const onClickArchivedHandler = async (selectedNote) => {
+    setIsLoading(true); // Mulai proses loading
+    try {
+      if (selectedNote.archived) {
+        await unarchiveNote(selectedNote.id);
+      } else {
+        await archiveNote(selectedNote.id);
+      }
+      const { data } = await getNote(noteId); // Ambil data note terbaru
+      setNote(data); // Update state note
+    } catch (error) {
+      alert('Error saat mengubah status arsip:', error);
+    } finally {
+      setIsLoading(false); // Akhiri proses loading
+    }
   };
 
-  const onClickDeleteHandler = (selectedNote) => {
+  const onClickDeleteHandler = async (selectedNote) => {
     const decideToDelete = window.confirm('Yakin ingin menghapus catatan?');
 
     if (decideToDelete) {
-      onDeleteNote(selectedNote.id);
+      await deleteNote(selectedNote.id);
       if (selectedNote.archived) {
         navigate('/archives');
       } else {
@@ -35,15 +45,12 @@ function DetailNotePage({
   useEffect(() => {
     const fetchNoteDetail = async () => {
       const { data } = await getNote(noteId);
-
-      console.log('data note =>', data);
-
       setNote(data);
     };
 
     fetchNoteDetail()
       .finally(() => setIsLoading(false));
-  }, [noteId]);
+  }, []);
 
   if (isLoading) {
     return (
@@ -99,10 +106,5 @@ function DetailNotePage({
     </div>
   );
 }
-
-DetailNotePage.propTypes = {
-  onChangeArchiveStatus: PropTypes.func.isRequired,
-  onDeleteNote: PropTypes.func.isRequired,
-};
 
 export default DetailNotePage;
