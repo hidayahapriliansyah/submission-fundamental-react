@@ -26,8 +26,6 @@ function HomePage() {
     const fetchNotes = async () => {
       const { data } = await getActiveNotes();
 
-      console.log('data active notes =>', data);
-
       setActiveNotes(data);
     };
 
