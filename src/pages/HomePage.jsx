@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
 import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
@@ -18,8 +18,11 @@ function HomePage() {
     setKeywordSearch(kSearch);
   };
 
-  const notes = activeNotes.filter(
-    (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+  const notes = useMemo(
+    () => activeNotes.filter(
+      (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+    ),
+    [activeNotes, keywordSearch],
   );
 
   useEffect(() => {
@@ -44,7 +47,7 @@ function HomePage() {
         // eslint-disable-next-line react/prop-types
         notes.length !== 0 ? (
           <NoteList
-            notes={activeNotes}
+            notes={notes}
           />
         ) : (
           <NoteListEmptyMessage />

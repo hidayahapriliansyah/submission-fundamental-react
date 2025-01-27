@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
 import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
@@ -18,8 +18,11 @@ function ArchivedNotePage() {
     setKeywordSearch(kSearch);
   };
 
-  const notes = archivedNotes.filter(
-    (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+  const notes = useMemo(
+    () => archivedNotes.filter(
+      (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+    ),
+    [archivedNotes, keywordSearch],
   );
 
   useEffect(() => {
