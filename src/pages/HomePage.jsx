@@ -37,7 +37,7 @@ function HomePage() {
 
   return (
     <div>
-      <h2>Catata Aktif</h2>
+      <h2>Catata Aktif ✅️</h2>
       <SearchNoteInput
         keyword={keywordSearch}
         onKeywordChangeHandler={onKeywordChangeHandler}

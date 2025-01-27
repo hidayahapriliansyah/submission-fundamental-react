@@ -37,7 +37,7 @@ function ArchivedNotePage() {
 
   return (
     <div>
-      <h2>Catata Arsip</h2>
+      <h2>Catata Arsip 📥️</h2>
       <SearchNoteInput
         keyword={keywordSearch}
         onKeywordChangeHandler={onKeywordChangeHandler}

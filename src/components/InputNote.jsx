@@ -49,7 +49,7 @@ function InputNote({ isEdit }) {
 
   return (
     <div className="note-input">
-      <h2>{isEdit ? 'Edit catata' : 'Buat catata'}</h2>
+      <h2>{isEdit ? 'Edit catata' : 'Buat catata 📝️'}</h2>
       <form onSubmit={handleSubmit}>
         <p
           className={`note-input__title__char-limit ${

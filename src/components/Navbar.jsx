@@ -1,3 +1,4 @@
+import { Archive, SquarePlus } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,10 +11,22 @@ function Navbar() {
 
       <div className="note-app__header-menu">
         <Link to="/notes/new">
-          Tambah Catata
+          <button
+            style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+            title="Tambah Catata"
+            type="button"
+          >
+            <SquarePlus />
+          </button>
         </Link>
         <Link to="/archives">
-          Archives
+          <button
+            style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+            title="Catata Arsip"
+            type="button"
+          >
+            <Archive />
+          </button>
         </Link>
       </div>
     </nav>

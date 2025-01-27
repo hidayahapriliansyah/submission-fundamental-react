@@ -73,6 +73,12 @@ textarea::placeholder {
   width: 100%;
 }
 
+.note-search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 0.75rem;
+}
+
 .note-search_clear {
   margin-left: -25px;
   margin-right: 10px;
@@ -292,6 +298,21 @@ textarea::placeholder {
 
 .note-app__detail-header {
   margin-bottom: 16px;
+}
+
+.note-app__detail-status {
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  width: fit-content;
+  font-size: 1rem;
+  border-radius: 50px;
+  border: 1px solid #93ff68;
+  background-color: #e8ffdf;
+}
+
+.note-app__detail-status.archived {
+  border: 1px solid #ff6e6e;
+  background-color: #ffe6e6;
 }
 
 .note-app__detail-header h1 {

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  Archive, ArchiveRestore, Trash,
+} from 'lucide-react';
+import {
   archiveNote, deleteNote, getNote, unarchiveNote,
 } from '../utils/api';
 import showFormattedDate from '../utils';
@@ -71,31 +74,37 @@ function DetailNotePage() {
       <article className="note-app__detail">
         <div className="note-app__detail-header">
           <h1>{note.title}</h1>
+          <div className={`note-app__detail-status ${note.archived && 'archived'}`}>
+            {note.archived ? 'Arsip' : 'Aktif'}
+          </div>
           <span>{showFormattedDate(note.createdAt)}</span>
-          <div>
+          <div style={{ marginTop: '12px' }}>
             <button
               type="button"
               title="Hapus"
               className="note-app__detail-delete"
               onClick={() => onClickDeleteHandler(note)}
             >
-              Hapus
+              <Trash />
             </button>
-            <button
+            {/* TODO: Nanti kalau di API ada fitur edit */}
+            {/* <button
               type="button"
               title="Edit"
               className="note-app__detail-edit"
               onClick={() => navigate(`/notes/${noteId}/edit`)}
             >
               Edit
-            </button>
+            </button> */}
             <button
               type="button"
               title={`${note.archived ? 'Klik untuk aktifkan' : 'Klik untuk arsipkan'}`}
-              className={`note-app__detail-archived-status ${note.archived ? 'archived' : ''}`}
+              className={`note-app__detail-archived-status ${!note.archived && 'archived'}`}
               onClick={() => onClickArchivedHandler(note)}
             >
-              {note.archived ? 'Diarsipkan' : 'Aktif'}
+              {note.archived
+                ? <ArchiveRestore />
+                : <Archive />}
             </button>
           </div>
         </div>

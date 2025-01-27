@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Search } from 'lucide-react';
 
 function SearchNoteInput({
   onKeywordChangeHandler,
@@ -13,6 +14,11 @@ function SearchNoteInput({
         onChange={(e) => onKeywordChangeHandler(e.target.value)}
         value={keyword}
       />
+
+      <div className="note-search-icon">
+        <Search />
+      </div>
+
     </div>
   );
 }
