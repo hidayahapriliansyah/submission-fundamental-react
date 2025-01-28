@@ -1,9 +1,10 @@
-import { Archive, SquarePlus } from 'lucide-react';
+import { Archive, LogOut, SquarePlus } from 'lucide-react';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LocaleContext from '../context/LocaleContext';
 
-function Navbar() {
+function Navbar({ logout }) {
   const { locale, toggleLocale } = useContext(LocaleContext);
 
   return (
@@ -43,9 +44,21 @@ function Navbar() {
             <Archive />
           </button>
         </Link>
+        <button
+          style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
+          type="button"
+          title="Logout"
+          onClick={logout}
+        >
+          <LogOut />
+        </button>
       </div>
     </nav>
   );
 }
+
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+};
 
 export default Navbar;

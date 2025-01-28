@@ -47,6 +47,7 @@ class NotesApp extends Component {
     this.onDeleteNote = this.onDeleteNote.bind(this);
     this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   onAddNote({ title, body }) {
@@ -110,6 +111,22 @@ class NotesApp extends Component {
     });
   }
 
+  onLogout() {
+    const text = this.state.localeContext.locale === 'id'
+      ? 'Yakin akan logout?'
+      : 'Are you sure to logout?';
+    const decideToLogout = window.confirm(text);
+
+    if (decideToLogout) {
+      this.setState(() => {
+        return {
+          authedUser: null,
+        };
+      });
+      putAccessToken('');
+    }
+  }
+
   async componentDidMount() {
     const { data: user } = await getUserLogged();
 
@@ -161,7 +178,7 @@ class NotesApp extends Component {
         <header
           className="note-app__header"
         >
-          <Navbar />
+          <Navbar logout={this.onLogout} />
         </header>
 
         <main className="note-app__body">
