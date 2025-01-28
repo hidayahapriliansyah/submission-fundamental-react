@@ -18,6 +18,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import { getUserLogged, putAccessToken } from '../utils/api';
+import { LocalProvider } from '../context/LocaleContext';
 
 class NotesApp extends Component {
   constructor() {
@@ -26,6 +27,19 @@ class NotesApp extends Component {
     this.state = {
       authedUser: null,
       initializing: true,
+      localeContext: {
+        locale: 'id',
+        toggleLocale: () => {
+          this.setState((prevState) => {
+            return {
+              localeContext: {
+                ...prevState.localeContext,
+                locale: prevState.localeContext.locale === 'id' ? 'en' : 'id',
+              },
+            };
+          });
+        },
+      },
     };
 
     this.onAddNote = this.onAddNote.bind(this);
@@ -114,7 +128,7 @@ class NotesApp extends Component {
 
     if (this.state.authedUser === null) {
       return (
-        <>
+        <LocalProvider value={this.state.localeContext}>
           <header
             className="note-app__header"
           >
@@ -138,12 +152,12 @@ class NotesApp extends Component {
               <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </main>
-        </>
+        </LocalProvider>
       );
     }
 
     return (
-      <>
+      <LocalProvider value={this.state.localeContext}>
         <header
           className="note-app__header"
         >
@@ -185,7 +199,7 @@ class NotesApp extends Component {
           </Routes>
           {/* <NoteAppFooter /> */}
         </main>
-      </>
+      </LocalProvider>
     );
   }
 }

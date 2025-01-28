@@ -1,8 +1,11 @@
 import { Archive, SquarePlus } from 'lucide-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import LocaleContext from '../context/LocaleContext';
 
 function Navbar() {
+  const { locale, toggleLocale } = useContext(LocaleContext);
+
   return (
     <nav>
       <Link to="/">
@@ -10,6 +13,18 @@ function Navbar() {
       </Link>
 
       <div className="note-app__header-menu">
+        <button
+          type="button"
+          style={{
+            cursor: 'pointer',
+            backgroundColor: 'white',
+            border: 'none',
+            fontSize: '1rem',
+          }}
+          onClick={toggleLocale}
+        >
+          {locale === 'id' ? 'en' : 'id'}
+        </button>
         <Link to="/notes/new">
           <button
             style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
