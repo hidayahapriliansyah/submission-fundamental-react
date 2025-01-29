@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getNote } from '../utils/local-data';
 import { addNote } from '../utils/api';
+import LocaleContext from '../context/LocaleContext';
+import createNoteTextId from '../constant/page-content-text/id/create_note';
+import createNoteTextEn from '../constant/page-content-text/en/create_note';
 
 function InputNote({ isEdit }) {
   const { noteId } = useParams();
   const note = getNote(noteId);
   const navigate = useNavigate();
+
+  const { locale } = useContext(LocaleContext);
 
   const [char, setChar] = useState(isEdit ? note.title.length : 0);
   const [title, setTitle] = useState(isEdit ? note.title : '');
@@ -49,7 +54,13 @@ function InputNote({ isEdit }) {
 
   return (
     <div className="note-input">
-      <h2>{isEdit ? 'Edit catata' : 'Buat catata 📝️'}</h2>
+      <h2>
+        {isEdit && 'Edit catata'}
+        {!isEdit && locale === 'id'
+          ? createNoteTextId.title
+          : createNoteTextEn.title}
+        {' '}📝️
+      </h2>
       <form onSubmit={handleSubmit}>
         <p
           className={`note-input__title__char-limit ${
@@ -61,12 +72,12 @@ function InputNote({ isEdit }) {
           `}
         >
           {/* // eslint-disable-next-line react/jsx-one-expression-per-line */}
-          Judul: {char}/50
+          {locale === 'id' ? createNoteTextId.label : createNoteTextEn.label} : {char}/50
         </p>
         <input
           className="note-input__title"
           type="text"
-          placeholder="Ini adalah judul ..."
+          placeholder={locale === 'id' ? createNoteTextId.form.title : createNoteTextEn.form.title}
           required=""
           value={title}
           name="title"
@@ -75,13 +86,16 @@ function InputNote({ isEdit }) {
         <textarea
           className="note-input__body"
           type="text"
-          placeholder="Tuliskan catata-mu di sini ..."
+          placeholder={locale === 'id' ? createNoteTextId.form.body : createNoteTextEn.form.body}
           value={body}
           required=""
           name="body"
           onChange={handleChange}
         />
-        <button type="submit">{isEdit ? 'Simpan Perubahan' : 'Buat'}</button>
+        <button type="submit">
+          {isEdit && 'Simpan Perubahan'}
+          {isEdit && locale === 'id' ? createNoteTextId.submit_btn : createNoteTextEn.submit_btn}
+        </button>
       </form>
     </div>
   );

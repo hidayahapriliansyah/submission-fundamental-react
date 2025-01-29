@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   addNote,
   archiveNote,
@@ -149,19 +149,7 @@ class NotesApp extends Component {
           <header
             className="note-app__header"
           >
-            <nav>
-              <Link to="/">
-                <h1>Catata Catat</h1>
-              </Link>
-              <div className="note-app__header-menu">
-                <Link to="/login">
-                  Login
-                </Link>
-                <Link to="/register">
-                  Register
-                </Link>
-              </div>
-            </nav>
+            <Navbar logout={this.onLogout} authedUser={this.state.authedUser} />
           </header>
           <main className="note-app__body">
             <Routes>
@@ -178,7 +166,7 @@ class NotesApp extends Component {
         <header
           className="note-app__header"
         >
-          <Navbar logout={this.onLogout} />
+          <Navbar logout={this.onLogout} authedUser={this.state.authedUser} />
         </header>
 
         <main className="note-app__body">

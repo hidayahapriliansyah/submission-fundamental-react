@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Archive, ArchiveRestore, Trash,
@@ -7,10 +7,14 @@ import {
   archiveNote, deleteNote, getNote, unarchiveNote,
 } from '../utils/api';
 import showFormattedDate from '../utils';
+import LocaleContext from '../context/LocaleContext';
+import detailNoteTextId from '../constant/page-content-text/id/detail_note';
+import detailNoteTextEn from '../constant/page-content-text/en/detail_note';
 
 function DetailNotePage() {
   const [note, setNote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { locale } = useContext(LocaleContext);
 
   const { noteId } = useParams();
   const navigate = useNavigate();
@@ -75,9 +79,24 @@ function DetailNotePage() {
         <div className="note-app__detail-header">
           <h1>{note.title}</h1>
           <div className={`note-app__detail-status ${note.archived && 'archived'}`}>
-            {note.archived ? 'Arsip' : 'Aktif'}
+            {(() => {
+              if (locale === 'id') {
+                return note.archived
+                  ? detailNoteTextId.status.archived
+                  : detailNoteTextId.status.active;
+              }
+              return note.archived
+                ? detailNoteTextEn.status.archived
+                : detailNoteTextEn.status.active;
+            })()}
           </div>
-          <span>{showFormattedDate(note.createdAt)}</span>
+          <span>
+            {
+              locale === 'en'
+                ? showFormattedDate(note.createdAt, 'en-US')
+                : showFormattedDate(note.createdAt)
+            }
+          </span>
           <div style={{ marginTop: '12px' }}>
             <button
               type="button"

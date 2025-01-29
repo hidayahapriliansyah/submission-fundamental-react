@@ -1,11 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
 import NoteListEmptyMessage from '../components/NoteListEmptyMessage';
 import { getArchivedNotes } from '../utils/api';
+import LocaleContext from '../context/LocaleContext';
+import archiveNoteTextId from '../constant/page-content-text/id/archive_note';
+import archiveNoteTextEn from '../constant/page-content-text/en/archive_note';
 
 function ArchivedNotePage() {
   const [archivedNotes, setArchivedNotes] = useState([]);
+  const { locale } = useContext(LocaleContext);
 
   const queryParams = new URLSearchParams(window.location.search);
   const keywordSearchQuery = queryParams.get('search') || '';
@@ -37,7 +43,10 @@ function ArchivedNotePage() {
 
   return (
     <div>
-      <h2>Catata Arsip 📥️</h2>
+      <h2>
+        {locale === 'id' ? archiveNoteTextId.title : archiveNoteTextEn.title }
+        {' '}📥️
+      </h2>
       <SearchNoteInput
         keyword={keywordSearch}
         onKeywordChangeHandler={onKeywordChangeHandler}
