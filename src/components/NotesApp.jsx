@@ -45,10 +45,13 @@ class NotesApp extends Component {
         theme: 'light',
         toggleTheme: () => {
           this.setState((prevState) => {
-            const newTheme = prevState.theme === 'light' ? 'dark' : 'light';
+            const newTheme = prevState.themeContext.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', newTheme);
             return {
-              theme: newTheme,
+              themeContext: {
+                ...prevState.themeContext,
+                theme: newTheme,
+              },
             };
           });
         },
@@ -141,21 +144,28 @@ class NotesApp extends Component {
   }
 
   async componentDidMount() {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', theme);
+    let localTheme = localStorage.getItem('theme');
+    if (localTheme !== 'light' && localTheme !== 'dark') {
+      localTheme = 'light';
+    }
+    document.documentElement.setAttribute('data-theme', localTheme);
     const { data: user } = await getUserLogged();
 
-    this.setState(() => {
+    this.setState((prevState) => {
       return {
         authedUser: user,
         initializing: false,
+        themeContext: {
+          ...prevState.themeContext,
+          theme: localTheme,
+        },
       };
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.theme !== this.state.theme) {
-      document.documentElement.setAttribute('data-theme', this.state.theme);
+    if (prevState.theme !== this.state.themeContext.theme) {
+      document.documentElement.setAttribute('data-theme', this.state.themeContext.theme);
     }
   }
 

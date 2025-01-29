@@ -1,5 +1,5 @@
 import {
-  Archive, DoorOpen, Languages, LogIn, LogOut, SquarePlus,
+  Archive, DoorOpen, LogIn, LogOut, SquarePlus,
 } from 'lucide-react';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,9 +8,10 @@ import LocaleContext from '../context/LocaleContext';
 import navbarTextId from '../constant/page-content-text/id/navbar';
 import navbarTextEn from '../constant/page-content-text/en/navbar';
 import ToggleTheme from './ToggleTheme';
+import ToogleLanguage from './ToogleLanguage';
 
 function Navbar({ logout, authedUser }) {
-  const { locale, toggleLocale } = useContext(LocaleContext);
+  const { locale } = useContext(LocaleContext);
 
   if (!authedUser) {
     return (
@@ -20,22 +21,7 @@ function Navbar({ logout, authedUser }) {
         </Link>
         <div className="note-app__header-menu">
           <ToggleTheme />
-          <button
-            type="button"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-              backgroundColor: 'white',
-              border: 'none',
-              fontSize: '1rem',
-            }}
-            onClick={toggleLocale}
-            title={locale === 'id' ? 'Ubah ke dalam bahasa Inggris' : 'Change to Bahasa'}
-          >
-            {locale === 'id' ? 'en' : 'id'}
-            <Languages style={{ marginLeft: '10px' }} />
-          </button>
+          <ToogleLanguage />
           <Link to="/login" title={locale === 'id' ? navbarTextId.login : navbarTextEn.login}>
             <LogIn />
           </Link>
@@ -55,46 +41,14 @@ function Navbar({ logout, authedUser }) {
 
       <div className="note-app__header-menu">
         <ToggleTheme />
-        <button
-          type="button"
-          style={{
-            cursor: 'pointer',
-            backgroundColor: 'white',
-            border: 'none',
-            fontSize: '1rem',
-          }}
-          onClick={toggleLocale}
-          title={locale === 'id' ? navbarTextId.lang : navbarTextEn.lang}
-        >
-          {locale === 'id' ? 'en' : 'id'}
-          <Languages style={{ marginLeft: '10px' }} />
-        </button>
+        <ToogleLanguage />
         <Link to="/notes/new">
-          <button
-            style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-            title={locale === 'id' ? navbarTextId.add_note : navbarTextEn.add_note}
-            type="button"
-          >
-            <SquarePlus />
-          </button>
+          <SquarePlus />
         </Link>
         <Link to="/archives">
-          <button
-            style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-            title={locale === 'id' ? navbarTextId.archived_note : navbarTextEn.archived_note}
-            type="button"
-          >
-            <Archive />
-          </button>
+          <Archive />
         </Link>
-        <button
-          style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
-          type="button"
-          title={locale === 'id' ? navbarTextId.logout : navbarTextEn.logout}
-          onClick={logout}
-        >
-          <LogOut />
-        </button>
+        <LogOut onClick={logout} style={{ cursor: 'pointer' }} />
       </div>
     </nav>
   );

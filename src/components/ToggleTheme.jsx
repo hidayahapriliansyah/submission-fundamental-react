@@ -7,9 +7,14 @@ function ToggleTheme() {
     <ThemeConsumer>
       {({ theme, toggleTheme }) => {
         return (
-          <button type="button" style={{ cursor: 'pointer' }} onClick={toggleTheme}>
+          <button
+            type="button"
+            style={{
+              cursor: 'pointer', color: 'inherit', backgroundColor: 'inherit', border: 'inherit',
+            }}
+            onClick={toggleTheme}
+          >
             {theme === 'light' ? <Moon /> : <Sun />}
-            {theme}
           </button>
         );
       }}
