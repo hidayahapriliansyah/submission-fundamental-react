@@ -11,6 +11,7 @@ class LoginInput extends React.Component {
     this.state = {
       email: '',
       password: '',
+      loading: false,
     };
 
     this.onEmailChangeHandler = this.onEmailChangeHandler.bind(this);
@@ -34,13 +35,16 @@ class LoginInput extends React.Component {
     });
   }
 
-  onSubmitHandler(event) {
+  async onSubmitHandler(event) {
     event.preventDefault();
+    this.setState({ loading: true });
 
-    this.props.login({
+    await this.props.login({
       email: this.state.email,
       password: this.state.password,
     });
+
+    this.setState({ loading: false });
   }
 
   render() {
@@ -63,8 +67,15 @@ class LoginInput extends React.Component {
                   onChange={this.onPasswordChangeHandler}
                   autoComplete="current-password"
                 />
-                <button type="submit">
-                  {locale === 'id' ? loginTextId.submit_btn : loginTextEn.submit_btn}
+                <button
+                  type="submit"
+                  disabled={this.state.loading}
+                  style={{ pointerEvents: this.state.loading ? 'none' : 'auto' }}
+                >
+                  {this.state.loading && 'Loading...'}
+                  {!this.state.loading && (locale === 'id'
+                    ? loginTextId.submit_btn
+                    : loginTextEn.submit_btn)}
                 </button>
               </form>
             );
