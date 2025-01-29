@@ -94,7 +94,7 @@ function InputNote({ isEdit }) {
         />
         <button type="submit">
           {isEdit && 'Simpan Perubahan'}
-          {isEdit && locale === 'id' ? createNoteTextId.submit_btn : createNoteTextEn.submit_btn}
+          {!isEdit && locale === 'id' ? createNoteTextId.submit_btn : createNoteTextEn.submit_btn}
         </button>
       </form>
     </div>
