@@ -204,6 +204,14 @@ textarea::placeholder {
   flex-direction: column;
 }
 
+html[data-theme='dark'] .note-item {
+  color: #09090b;
+}
+
+html[data-theme='dark'] .note-item__date  {
+  color: #333;
+}
+
 .note-item.archived {
   border: 1px solid #ff6e6e;
   background-color: #ffe6e6;
