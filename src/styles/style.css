@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
+:root {
+  --font-color: #333;
+  --background-color: #fefefe;
+}
+
+[data-theme='dark'] {
+  --font-color: #eee;
+  --background-color: #333;
+}
+
 html {  
   scroll-behavior: smooth;
 }
@@ -12,8 +22,8 @@ html {
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: white;
-  color: #202124;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 input,
@@ -41,7 +51,7 @@ textarea::placeholder {
   align-items: center;
   justify-content: space-between;
   padding: 4px 16px;
-  background-color: white;
+  background-color: var(--background-color);
   border-bottom: 1px solid #aaa;
 }
 

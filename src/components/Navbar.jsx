@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import LocaleContext from '../context/LocaleContext';
 import navbarTextId from '../constant/page-content-text/id/navbar';
 import navbarTextEn from '../constant/page-content-text/en/navbar';
+import ToggleTheme from './ToggleTheme';
 
 function Navbar({ logout, authedUser }) {
   const { locale, toggleLocale } = useContext(LocaleContext);
@@ -18,6 +19,7 @@ function Navbar({ logout, authedUser }) {
           <h1>Catata Catat</h1>
         </Link>
         <div className="note-app__header-menu">
+          <ToggleTheme />
           <button
             type="button"
             style={{
@@ -52,6 +54,7 @@ function Navbar({ logout, authedUser }) {
       </Link>
 
       <div className="note-app__header-menu">
+        <ToggleTheme />
         <button
           type="button"
           style={{
