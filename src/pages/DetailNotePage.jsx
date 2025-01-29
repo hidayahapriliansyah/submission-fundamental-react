@@ -100,7 +100,7 @@ function DetailNotePage() {
           <div style={{ marginTop: '12px' }}>
             <button
               type="button"
-              title="Hapus"
+              title={locale === 'id' ? detailNoteTextId.action.delete : detailNoteTextEn.action.delete}
               className="note-app__detail-delete"
               onClick={() => onClickDeleteHandler(note)}
             >
@@ -117,7 +117,18 @@ function DetailNotePage() {
             </button> */}
             <button
               type="button"
-              title={`${note.archived ? 'Klik untuk aktifkan' : 'Klik untuk arsipkan'}`}
+              title={
+                (() => {
+                  if (locale === 'id') {
+                    return note.archived
+                      ? detailNoteTextId.action.change_to_active
+                      : detailNoteTextId.action.change_to_archive;
+                  }
+                  return note.archived
+                    ? detailNoteTextEn.action.change_to_active
+                    : detailNoteTextEn.action.change_to_archive;
+                })()
+              }
               className={`note-app__detail-archived-status ${!note.archived && 'archived'}`}
               onClick={() => onClickArchivedHandler(note)}
             >
