@@ -1,5 +1,5 @@
 import React, {
-  useContext, useEffect, useMemo, useState,
+  useContext, useEffect, useState,
 } from 'react';
 import SearchNoteInput from '../components/SearchNoteInput';
 import NoteList from '../components/NoteList';
@@ -8,10 +8,12 @@ import { getActiveNotes } from '../utils/api';
 import LocaleContext from '../context/LocaleContext';
 import homeId from '../constant/page-content-text/id/home';
 import homeEn from '../constant/page-content-text/en/home';
+import useApi from '../hooks/useApi';
 
 function HomePage() {
-  const [activeNotes, setActiveNotes] = useState([]);
+  const [displayNotes, setDisplayNotes] = useState([]);
   const { locale } = useContext(LocaleContext);
+  const { data, isLoading } = useApi(getActiveNotes);
 
   const queryParams = new URLSearchParams(window.location.search);
   const keywordSearchQuery = queryParams.get('search') || '';
@@ -24,22 +26,12 @@ function HomePage() {
     setKeywordSearch(kSearch);
   };
 
-  const notes = useMemo(
-    () => activeNotes.filter(
-      (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
-    ),
-    [activeNotes, keywordSearch],
-  );
-
   useEffect(() => {
-    const fetchNotes = async () => {
-      const { data } = await getActiveNotes();
-
-      setActiveNotes(data);
-    };
-
-    fetchNotes();
-  }, []);
+    const notes = data.filter(
+      (n) => n.title.toLowerCase().includes(keywordSearch.toLowerCase()),
+    );
+    setDisplayNotes(notes);
+  }, [keywordSearch, data]);
 
   return (
     <div>
@@ -52,16 +44,16 @@ function HomePage() {
         onKeywordChangeHandler={onKeywordChangeHandler}
       />
 
-      {
+      {isLoading && <p style={{ textAlign: 'center' }}>Loading ....</p>}
+      {!isLoading
         // eslint-disable-next-line react/prop-types
-        notes.length !== 0 ? (
+        && (displayNotes.length !== 0 ? (
           <NoteList
-            notes={notes}
+            notes={displayNotes}
           />
         ) : (
           <NoteListEmptyMessage />
-        )
-      }
+        ))}
     </div>
   );
 }
