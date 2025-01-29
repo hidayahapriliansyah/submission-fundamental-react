@@ -20,7 +20,7 @@ function HomePage() {
   const [keywordSearch, setKeywordSearch] = useState(keywordSearchQuery);
 
   const onKeywordChangeHandler = (kSearch) => {
-    queryParams.set('search', keywordSearch);
+    queryParams.set('search', kSearch);
     window.history.pushState(null, '', `?${queryParams.toString()}`);
 
     setKeywordSearch(kSearch);
