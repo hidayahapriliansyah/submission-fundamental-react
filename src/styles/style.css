@@ -337,6 +337,10 @@ html[data-theme='dark'] .note-item__date  {
   background-color: #ffe6e6;
 }
 
+html[data-theme='dark'] .note-app__detail-status {
+  color: #09090b;
+}
+
 .note-app__detail-header h1 {
   margin-bottom: 4px;
   font-size: 3rem;
