@@ -20,6 +20,7 @@ function DetailNotePage() {
 
   const { mutate: unarchiveMutate, isLoading: isLoadingUnarchive } = useMutateApi(unarchiveNote);
   const { mutate: archiveMutate, isLoading: isLoadingArchive } = useMutateApi(archiveNote);
+  const { mutate: deleteMutate, isLoading: isLoadingDelete } = useMutateApi(deleteNote);
   const {
     data: note, isLoading: isLoadingDetail, query: queryGetNote, error,
   } = useQueryApi(getNote, noteId);
@@ -37,7 +38,7 @@ function DetailNotePage() {
     const decideToDelete = window.confirm('Yakin ingin menghapus catatan?');
 
     if (decideToDelete) {
-      await deleteNote(selectedNote.id);
+      await deleteMutate(selectedNote.id);
       if (selectedNote.archived) {
         navigate('/archives');
       } else {
@@ -90,8 +91,10 @@ function DetailNotePage() {
               title={locale === 'id' ? detailNoteTextId.action.delete : detailNoteTextEn.action.delete}
               className="note-app__detail-delete"
               onClick={() => onClickDeleteHandler(note)}
+              style={{ pointerEvents: isLoadingDelete ? 'none' : 'auto' }}
+              disabled={isLoadingDelete}
             >
-              <Trash />
+              {isLoadingDelete ? '...' : <Trash />}
             </button>
             {/* TODO: Nanti kalau di API ada fitur edit */}
             {/* <button
