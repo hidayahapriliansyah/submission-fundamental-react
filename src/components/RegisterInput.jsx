@@ -1,106 +1,69 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { LocalConsumer } from '../context/LocaleContext';
+import LocaleContext from '../context/LocaleContext';
+
 import registerTextId from '../constant/page-content-text/id/register';
 import registerTextEn from '../constant/page-content-text/en/register';
+import useMutateApi from '../hooks/useMutateApi';
 
-class RegisterInput extends React.Component {
-  constructor(props) {
-    super(props);
+function RegisterInput({ register }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { isLoading, mutate: registerMutate } = useMutateApi(register);
 
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      loading: false,
-    };
+  const { locale } = useContext(LocaleContext);
 
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onEmailChange = this.onEmailChange.bind(this);
-    this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onSubmitHandler = this.onSubmitHandler.bind(this);
-  }
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
 
-  onNameChange(event) {
-    this.setState(() => {
-      return {
-        name: event.target.value,
-      };
-    });
-  }
+  const onEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
-  onEmailChange(event) {
-    this.setState(() => {
-      return {
-        email: event.target.value,
-      };
-    });
-  }
+  const onPasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
 
-  onPasswordChange(event) {
-    this.setState(() => {
-      return {
-        password: event.target.value,
-      };
-    });
-  }
-
-  async onSubmitHandler(event) {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
 
-    await this.props.register({
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-    });
-    this.setState({ loading: false });
-  }
+    await registerMutate({ name, email, password });
+  };
 
-  render() {
-    return (
-      <LocalConsumer>
-        {
-          (({ locale }) => {
-            return (
+  const text = locale === 'id' ? registerTextId : registerTextEn;
 
-              <form onSubmit={this.onSubmitHandler} className="register-input">
-                <input
-                  type="text"
-                  placeholder={locale === 'id' ? registerTextId.form.name : registerTextEn.form.name}
-                  value={this.state.name}
-                  onChange={this.onNameChange}
-                />
-                <input
-                  type="email"
-                  placeholder={locale === 'id' ? registerTextId.form.email : registerTextEn.form.email}
-                  value={this.state.email}
-                  onChange={this.onEmailChange}
-                />
-                <input
-                  type="password"
-                  placeholder={locale === 'id' ? registerTextId.form.password : registerTextEn.form.password}
-                  autoComplete="current-password"
-                  value={this.state.password}
-                  onChange={this.onPasswordChange}
-                />
-                <button
-                  type="submit"
-                  disabled={this.state.loading}
-                  style={{ pointerEvents: this.state.loading ? 'none' : 'auto' }}
-                >
-                  {this.state.loading && 'Loading...'}
-                  {!this.state.loading && (locale === 'id'
-                    ? registerTextId.submit_btn
-                    : registerTextEn.submit_btn)}
-                </button>
-              </form>
-            );
-          })
-        }
-      </LocalConsumer>
-    );
-  }
+  return (
+    <form onSubmit={onSubmitHandler} className="register-input">
+      <input
+        type="text"
+        placeholder={text.form.name}
+        value={name}
+        onChange={onNameChange}
+      />
+      <input
+        type="email"
+        placeholder={text.form.email}
+        value={email}
+        onChange={onEmailChange}
+      />
+      <input
+        type="password"
+        placeholder={text.form.password}
+        autoComplete="current-password"
+        value={password}
+        onChange={onPasswordChange}
+      />
+      <button
+        type="submit"
+        disabled={isLoading}
+        style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+      >
+        {isLoading ? 'Loading...' : text.submit_btn}
+      </button>
+    </form>
+  );
 }
 
 RegisterInput.propTypes = {
