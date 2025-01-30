@@ -1,24 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import LocaleContext from '../context/LocaleContext';
 import loginTextId from '../constant/page-content-text/id/login';
 import loginTextEn from '../constant/page-content-text/en/login';
 import useMutateApi from '../hooks/useMutateApi';
+import useInput from '../hooks/useInput';
 
 function LoginInput({ login }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, onEmailChangeHandler] = useInput('');
+  const [password, onPasswordChangeHandler] = useInput('');
   const { isLoading, mutate: loginMutate } = useMutateApi(login);
 
   const { locale } = useContext(LocaleContext);
-
-  const onEmailChangeHandler = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const onPasswordChangeHandler = (event) => {
-    setPassword(event.target.value);
-  };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
