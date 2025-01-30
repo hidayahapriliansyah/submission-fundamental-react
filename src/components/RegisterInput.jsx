@@ -1,30 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import LocaleContext from '../context/LocaleContext';
 
 import registerTextId from '../constant/page-content-text/id/register';
 import registerTextEn from '../constant/page-content-text/en/register';
 import useMutateApi from '../hooks/useMutateApi';
+import useInput from '../hooks/useInput';
 
 function RegisterInput({ register }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, onNameChange] = useInput('');
+  const [email, onEmailChange] = useInput('');
+  const [password, onPasswordChange] = useInput('');
   const { isLoading, mutate: registerMutate } = useMutateApi(register);
 
   const { locale } = useContext(LocaleContext);
-
-  const onNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const onEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const onPasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
