@@ -6,11 +6,13 @@ import { addNote } from '../utils/api';
 import LocaleContext from '../context/LocaleContext';
 import createNoteTextId from '../constant/page-content-text/id/create_note';
 import createNoteTextEn from '../constant/page-content-text/en/create_note';
+import useMutateApi from '../hooks/useMutateApi';
 
 function InputNote({ isEdit }) {
   const { noteId } = useParams();
   const note = getNote(noteId);
   const navigate = useNavigate();
+  const { mutate: addNoteMutate, isLoading } = useMutateApi(addNote);
 
   const { locale } = useContext(LocaleContext);
 
@@ -40,7 +42,7 @@ function InputNote({ isEdit }) {
        *       block edit bisa dipakai seandainya nanti ada fitur edit
        */
     } else {
-      await addNote({ title, body });
+      await addNoteMutate({ title, body });
     }
     setBody('');
     setTitle('');
@@ -55,6 +57,7 @@ function InputNote({ isEdit }) {
   return (
     <div className="note-input">
       <h2>
+        Halooooooo
         {isEdit && 'Edit catata'}
         {!isEdit && locale === 'id'
           ? createNoteTextId.title
@@ -92,9 +95,13 @@ function InputNote({ isEdit }) {
           name="body"
           onChange={handleChange}
         />
-        <button type="submit">
+        <button
+          style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+          type="submit"
+        >
+          {isLoading && 'Loading...'}
           {isEdit && 'Simpan Perubahan'}
-          {!isEdit && locale === 'id' ? createNoteTextId.submit_btn : createNoteTextEn.submit_btn}
+          {!isLoading && !isEdit && (locale === 'id' ? createNoteTextId.submit_btn : createNoteTextEn.submit_btn)}
         </button>
       </form>
     </div>
