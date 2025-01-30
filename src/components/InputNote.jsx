@@ -57,7 +57,6 @@ function InputNote({ isEdit }) {
   return (
     <div className="note-input">
       <h2>
-        Halooooooo
         {isEdit && 'Edit catata'}
         {!isEdit && locale === 'id'
           ? createNoteTextId.title
