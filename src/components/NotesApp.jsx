@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
-import {
-  addNote,
-  archiveNote,
-  deleteNote,
-  editNote,
-  getAllNotes,
-  unarchiveNote,
-} from '../utils/local-data';
 import HomePage from '../pages/HomePage';
 import ArchivedNotePage from '../pages/ArchivedNotePage';
 import Navbar from './Navbar';
@@ -58,63 +50,8 @@ class NotesApp extends Component {
       },
     };
 
-    this.onAddNote = this.onAddNote.bind(this);
-    this.onEditNote = this.onEditNote.bind(this);
-    this.onDeleteNote = this.onDeleteNote.bind(this);
-    this.onChangeArchiveStatus = this.onChangeArchiveStatus.bind(this);
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
     this.onLogout = this.onLogout.bind(this);
-  }
-
-  onAddNote({ title, body }) {
-    addNote({ title, body });
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        notes: getAllNotes(),
-      };
-    });
-
-    window.alert(`Note ${title} berhasil ditambahkan!`);
-  }
-
-  onEditNote({ id, title, body }) {
-    editNote({ id, title, body });
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        notes: getAllNotes(),
-      };
-    });
-
-    window.alert(`Note ${title} berhasil diedit!`);
-  }
-
-  onDeleteNote(id) {
-    deleteNote(id);
-
-    this.setState(() => {
-      return {
-        ...this.state,
-        notes: getAllNotes(),
-      };
-    });
-  }
-
-  onChangeArchiveStatus(note) {
-    if (note.archived) {
-      unarchiveNote(note.id);
-    } else {
-      archiveNote(note.id);
-    }
-    this.setState(() => {
-      return {
-        ...this.state,
-        notes: getAllNotes(),
-      };
-    });
   }
 
   async onLoginSuccess({ accessToken }) {
