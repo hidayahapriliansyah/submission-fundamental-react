@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 
-function useApi(callback) {
+function useApi(callback, params = null) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    callback()
+    callback(params)
       .then((result) => {
         const { data: resultData, error: err } = result;
-        if (err) {
-          setError(error);
-        } else {
-          setData(resultData);
-        }
+        setError(err);
+        setData(resultData);
       })
       .catch((err) => {
-        throw new Error(err);
+        setError(err);
       })
       .finally(() => setIsLoading(false));
   }, [callback]);

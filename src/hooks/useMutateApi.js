@@ -10,11 +10,8 @@ function useMutateApi(callback) {
     setError(null);
     try {
       const { data: resultData, error: err } = await callback(payload);
-      if (err) {
-        setError(err);
-      } else {
-        setData(resultData);
-      }
+      setError(err);
+      setData(resultData);
     } catch (err) {
       setError(err);
     } finally {

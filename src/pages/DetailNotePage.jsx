@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Archive, ArchiveRestore, Trash,
@@ -10,30 +10,27 @@ import showFormattedDate from '../utils';
 import LocaleContext from '../context/LocaleContext';
 import detailNoteTextId from '../constant/page-content-text/id/detail_note';
 import detailNoteTextEn from '../constant/page-content-text/en/detail_note';
+import useMutateApi from '../hooks/useMutateApi';
+import useQueryApi from '../hooks/useQueryApi';
 
 function DetailNotePage() {
-  const [note, setNote] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const { locale } = useContext(LocaleContext);
-
   const { noteId } = useParams();
   const navigate = useNavigate();
 
+  const { mutate: unarchiveMutate, isLoading: isLoadingUnarchive } = useMutateApi(unarchiveNote);
+  const { mutate: archiveMutate, isLoading: isLoadingArchive } = useMutateApi(archiveNote);
+  const {
+    data: note, isLoading: isLoadingDetail, query: queryGetNote, error,
+  } = useQueryApi(getNote, noteId);
+
   const onClickArchivedHandler = async (selectedNote) => {
-    setIsLoading(true); // Mulai proses loading
-    try {
-      if (selectedNote.archived) {
-        await unarchiveNote(selectedNote.id);
-      } else {
-        await archiveNote(selectedNote.id);
-      }
-      const { data } = await getNote(noteId); // Ambil data note terbaru
-      setNote(data); // Update state note
-    } catch (error) {
-      alert('Error saat mengubah status arsip:', error);
-    } finally {
-      setIsLoading(false); // Akhiri proses loading
+    if (selectedNote.archived) {
+      await unarchiveMutate(selectedNote.id);
+    } else {
+      await archiveMutate(selectedNote.id);
     }
+    await queryGetNote(noteId);
   };
 
   const onClickDeleteHandler = async (selectedNote) => {
@@ -49,23 +46,13 @@ function DetailNotePage() {
     }
   };
 
-  useEffect(() => {
-    const fetchNoteDetail = async () => {
-      const { data } = await getNote(noteId);
-      setNote(data);
-    };
-
-    fetchNoteDetail()
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  if (isLoading) {
+  if (isLoadingDetail) {
     return (
-      <h1>Loading data ....</h1>
+      <h1 style={{ marginTop: '16px', textAlign: 'center' }}>Loading data ....</h1>
     );
   }
 
-  if (!note) {
+  if (error) {
     return (
       <div>
         <h1 style={{ textAlign: 'center' }}>404 | Note tidak ditemukan</h1>
@@ -130,11 +117,15 @@ function DetailNotePage() {
                 })()
               }
               className={`note-app__detail-archived-status ${!note.archived && 'archived'}`}
+              style={{ pointerEvents: isLoadingArchive || isLoadingUnarchive ? 'none' : 'auto' }}
+              disabled={isLoadingArchive || isLoadingUnarchive}
               onClick={() => onClickArchivedHandler(note)}
             >
-              {note.archived
+              {(isLoadingArchive || isLoadingUnarchive) && '...'}
+              {(!isLoadingArchive && !isLoadingUnarchive)
+              && (note.archived
                 ? <ArchiveRestore />
-                : <Archive />}
+                : <Archive />)}
             </button>
           </div>
         </div>
